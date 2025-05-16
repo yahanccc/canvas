@@ -3,30 +3,30 @@ function doFirst() {
     let context = canvas.getContext('2d')
 
     // 格線
-    context.beginPath();
+    // context.beginPath();
 
-    let gap = 50
-    if (canvas.width > canvas.height) {
-        range = canvas.width / gap
-    } else {
-        range = canvas.height / gap
-    }
+    // let gap = 50
+    // if (canvas.width > canvas.height) {
+    //     range = canvas.width / gap
+    // } else {
+    //     range = canvas.height / gap
+    // }
 
-    for (let i = 0; i <= range; i++) {
-        let interval = i * gap
+    // for (let i = 0; i <= range; i++) {
+    //     let interval = i * gap
 
-        // 水平線
-        context.moveTo(0, interval);
-        context.lineTo(canvas.width, interval);
-        context.fillText(interval, 0, interval);
+    //     // 水平線
+    //     context.moveTo(0, interval);
+    //     context.lineTo(canvas.width, interval);
+    //     context.fillText(interval, 0, interval);
 
-        // 垂直線
-        context.moveTo(interval, 0);
-        context.lineTo(interval, canvas.height);
-        context.fillText(interval, interval, 10);
-    }
-    context.strokeStyle = 'rgba(0,0,0,0.3)';
-    context.stroke();
+    //     // 垂直線
+    //     context.moveTo(interval, 0);
+    //     context.lineTo(interval, canvas.height);
+    //     context.fillText(interval, interval, 10);
+    // }
+    // context.strokeStyle = 'rgba(0,0,0,0.3)';
+    // context.stroke();
 
 
     // 閃耀光束，logo置中
@@ -107,9 +107,38 @@ function doFirst() {
 
     let pic = new Image()
     pic.src = './Logo.png'
+    const logoX = 558, logoY = 189, logoWidth = 200, logoHeight = 199; // Logo 位置與尺寸
     pic.addEventListener('load', function () {
         context.drawImage(pic, 558, 189)
+
     })
+
+    canvas.addEventListener('click', function (event) {
+        const rect = canvas.getBoundingClientRect(); // 獲取 Canvas 在螢幕上的位置
+        const mouseX = event.clientX - rect.left; // 計算滑鼠在 Canvas 內的 X 座標
+        const mouseY = event.clientY - rect.top;  // 計算滑鼠在 Canvas 內的 Y 座標
+
+        // **檢查滑鼠是否在 Logo 內**
+        if (mouseX >= logoX && mouseX <= logoX + logoWidth &&
+            mouseY >= logoY && mouseY <= logoY + logoHeight) {
+            window.location.href = 'floatingBird.html'; // 替換為你的超連結
+        }
+    });
+
+
+    canvas.addEventListener('mousemove', function (event) {
+        const rect = canvas.getBoundingClientRect(); // 獲取 Canvas 在螢幕上的位置
+        const mouseX = event.clientX - rect.left; // 計算滑鼠在 Canvas 內的 X 座標
+        const mouseY = event.clientY - rect.top;  // 計算滑鼠在 Canvas 內的 Y 座標
+
+        // **檢查滑鼠是否在 Logo 內**
+        if (mouseX >= logoX && mouseX <= logoX + logoWidth &&
+            mouseY >= logoY && mouseY <= logoY + logoHeight) {
+            canvas.style.cursor = 'pointer';
+        } else {
+            canvas.style.cursor = 'default';
+        }
+    });
 
     const colors = ['#DA5B27', '#153D52', '#EAA525', '#2A7769', '#DA5B27', '#153D52', '#EAA525', '#166065'];
     const highlightColor = 'white'; // 讓區塊閃動時變亮
